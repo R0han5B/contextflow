@@ -1,0 +1,10 @@
+fastapi
+uvicorn
+pymupdf
+sentence-transformers
+pymongo
+python-dotenv
+python-multipart
+requests
+torch
+transformers

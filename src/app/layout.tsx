@@ -14,24 +14,26 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Context Flow - AI-Powered Document Intelligence",
-  description: "Intelligent document Q&A system with adaptive retrieval. Built with Next.js, TypeScript, and z-ai-web-dev-sdk.",
-  keywords: ["Context Flow", "Document Q&A", "AI Retrieval", "Next.js", "TypeScript", "Adaptive Intelligence", "React"],
+  title: "Context Flow",
+  description: "Document intelligence with retrieval, grounded answers, and a clean workflow for asking questions over uploaded PDFs.",
+  keywords: ["Context Flow", "Document Q&A", "RAG", "MongoDB Atlas Vector Search", "Next.js", "FastAPI"],
   authors: [{ name: "Context Flow Team" }],
   icons: {
-    icon: "https://z-cdn.chatglm.cn/z-ai/static/logo.svg",
+    icon: "/logo.svg",
+    shortcut: "/logo.svg",
+    apple: "/logo.svg",
   },
   openGraph: {
     title: "Context Flow",
-    description: "Adaptive intelligence for document analysis and Q&A",
-    url: "https://chat.z.ai",
+    description: "A polished document Q&A experience powered by retrieval-augmented generation.",
+    url: "http://localhost:3000",
     siteName: "Context Flow",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
     title: "Context Flow",
-    description: "Adaptive intelligence for document analysis and Q&A",
+    description: "A polished document Q&A experience powered by retrieval-augmented generation.",
   },
 };
 

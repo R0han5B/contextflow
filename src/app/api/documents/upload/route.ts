@@ -1,45 +1,35 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { getBackendBaseUrl } from '@/lib/backend-config'
 
 export const runtime = 'nodejs'
 
-// In-memory store (demo-safe)
-let STORED_TEXT = ''
-
 export async function POST(request: NextRequest) {
   try {
-    const formData = await request.formData()
-    const file = formData.get('file') as File | null
+    const incomingFormData = await request.formData()
+    const file = incomingFormData.get('file')
 
-    if (!file) {
+    if (!(file instanceof File)) {
       return NextResponse.json({ error: 'No file uploaded' }, { status: 400 })
     }
 
-    // Read file as text (works for text-based PDFs / notes)
-    const text = await file.text()
+    const buffer = await file.arrayBuffer()
+    const outboundFormData = new FormData()
+    const blob = new Blob([buffer], { type: file.type || 'application/octet-stream' })
+    outboundFormData.append('file', blob, file.name)
 
-    if (!text.trim()) {
-      return NextResponse.json(
-        { error: 'File contains no readable text' },
-        { status: 400 }
-      )
-    }
-
-    STORED_TEXT = text
-
-    return NextResponse.json({
-      success: true,
-      message: 'Document uploaded and indexed (demo mode)'
+    const response = await fetch(`${getBackendBaseUrl()}/upload`, {
+      method: 'POST',
+      body: outboundFormData,
+      cache: 'no-store',
     })
-  } catch (e) {
-    console.error(e)
+
+    const data = await response.json()
+    return NextResponse.json(data, { status: response.status })
+  } catch (error) {
+    console.error('Proxy error in /api/documents/upload:', error)
     return NextResponse.json(
       { error: 'Upload failed' },
-      { status: 500 }
+      { status: 502 }
     )
   }
-}
-
-// Export getter for answer API
-export function getStoredText() {
-  return STORED_TEXT
 }
